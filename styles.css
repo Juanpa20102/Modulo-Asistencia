@@ -1,158 +1,187 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-:root {
-    --primary: #2563eb;
-    --primary-hover: #1d4ed8;
-    --bg-body: #f8fafc;
-    --card-bg: #ffffff;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --border-color: #e2e8f0;
-    --danger: #ef4444;
+/* --- RESETEO Y FUENTES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Fondo con un degradado suave y moderno */
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg-body);
-    color: var(--text-main);
-    margin: 0;
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%);
+    background-attachment: fixed;
+    color: #2b3674;
+    padding: 30px 20px;
+    min-height: 100vh;
+}
+
+/* --- ENCABEZADO Y LOGO --- */
+header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo-header {
+    width: 110px;
+    height: auto;
+    margin-bottom: 12px;
+    filter: drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.15));
+    transition: transform 0.3s ease;
+}
+
+.logo-header:hover {
+    transform: scale(1.05);
 }
 
 h1 {
-    font-size: 2.2rem;
+    color: #1b2559;
+    font-size: 2.3rem;
     font-weight: 700;
-    color: #1e293b;
     margin-bottom: 6px;
-    text-align: center;
+    letter-spacing: -0.5px;
 }
 
-p {
-    color: var(--text-muted);
+header p {
+    color: #5a6a85;
     font-size: 1rem;
-    margin-top: 0;
-    margin-bottom: 35px;
-    text-align: center;
+    font-weight: 500;
 }
 
+/* --- CONTENEDOR PRINCIPAL (GRID) --- */
 .dashboard-container {
-    width: 100%;
-    max-width: 1050px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+/* --- TARJETAS (CARDS) --- */
 .card {
-    background-color: var(--card-bg);
-    border-radius: 16px;
-    padding: 28px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-    box-sizing: border-box;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.06);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Bordes superiores decorativos por cada tarjeta */
+.card:nth-child(1) { border-top: 5px solid #4318ff; } /* Azul Lector */
+.card:nth-child(2) { border-top: 5px solid #00c853; } /* Verde Registrar */
+.card:nth-child(3) { border-top: 5px solid #ff9100; } /* Naranja Registrados */
+.card:nth-child(4) { border-top: 5px solid #00b0ff; } /* Celeste Historial */
 
 .card h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin-top: 0;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #f1f5f9;
-    padding-bottom: 12px;
-}
-
-form {
+    font-size: 1.3rem;
+    color: #1b2559;
+    margin-bottom: 18px;
+    border-bottom: 2px solid #f0f3f8;
+    padding-bottom: 10px;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
 }
 
+/* --- INPUTS Y FORMULARIOS --- */
 label {
-    font-size: 0.875rem;
+    display: block;
+    font-size: 0.88rem;
     font-weight: 600;
-    color: #334155;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    color: #4a5568;
 }
 
-input[type="text"], input[type="date"] {
+input[type="text"],
+input[type="date"] {
     width: 100%;
-    padding: 12px 14px;
-    border: 1.5px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background-color: #f8fafc;
-    box-sizing: border-box;
-}
-
-input[type="text"]:focus, input[type="date"]:focus {
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
     outline: none;
-    background-color: #ffffff;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    background-color: #f8fafc;
 }
 
+input[type="text"]:focus,
+input[type="date"]:focus {
+    border-color: #4318ff;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(67, 24, 255, 0.1);
+}
+
+/* --- BOTÓN DE REGISTRO --- */
 button {
-    background-color: var(--primary);
+    width: 100%;
+    margin-top: 20px;
+    padding: 13px;
+    background: linear-gradient(135deg, #00c853 0%, #009624 100%);
     color: #ffffff;
-    font-weight: 600;
-    font-size: 0.95rem;
-    padding: 12px 20px;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
-    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0, 200, 83, 0.3);
+    transition: all 0.2s ease;
 }
 
 button:hover {
-    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 200, 83, 0.4);
 }
 
-.btn-eliminar {
-    background-color: var(--danger);
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    margin-top: 0;
+button:active {
+    transform: scale(0.98);
 }
 
+/* --- TABLAS ESTILIZADAS --- */
 table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 th {
-    background-color: #f1f5f9;
-    color: #475569;
+    background-color: #f4f7fe;
+    color: #a3eed9;
+    color: #707ebe;
+    text-transform: uppercase;
     font-size: 0.75rem;
     font-weight: 700;
-    text-transform: uppercase;
-    padding: 12px 16px;
+    letter-spacing: 0.8px;
+    padding: 12px 10px;
     text-align: left;
 }
 
+th:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
+th:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+
 td {
-    padding: 14px 16px;
+    padding: 12px 10px;
     font-size: 0.9rem;
-    color: #334155;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #edf2f7;
+    color: #2d3748;
 }
 
+tr:hover td {
+    background-color: #f8fafc;
+}
+
+/* --- ALERTAS --- */
 .alerta {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    display: none;
-}
-
-.alerta-exito { background-color: #d1fae5; color: #065f46; }
-.alerta-error { background-color: #fee2e2; color: #991b1b; }
-
-@media (max-width: 600px) {
-    .dashboard-container { grid-template-columns: 1fr; }
+    margin-top: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 8px;
 }
