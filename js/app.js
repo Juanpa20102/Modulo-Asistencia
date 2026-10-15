@@ -1,3 +1,22 @@
+// Importar Firebase y Realtime Database desde los CDN oficiales
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAxG7HliJEd7XITfsra-eRR2w-XjZ-aGCA",
+  authDomain: "modulo-asistencia-866bd.firebaseapp.com",
+  databaseURL: "https://modulo-asistencia-866bd-default-rtdb.firebaseio.com",
+  projectId: "modulo-asistencia-866bd",
+  storageBucket: "modulo-asistencia-866bd.firebasestorage.app",
+  messagingSenderId: "302635712434",
+  appId: "1:302635712434:web:e33cfa50bccc4caa3feeab",
+  measurementId: "G-JLY0P34DH7"
+};
+
+// Inicializar Firebase y la Base de Datos
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 // ---------- Datos iniciales por defecto ----------
 const estudiantesBase = [
   { codigo: "1142925222", nombre: "Ana Victoria Barrios Romedo", grado: "11-A" },
@@ -5,13 +24,37 @@ const estudiantesBase = [
   { codigo: "1062439213", nombre: "Jhon Maycol Buelvas Garcia", grado: "11-A" }
 ];
 
-if (!localStorage.getItem("estudiantes")) {
-  localStorage.setItem("estudiantes", JSON.stringify(estudiantesBase));
-}
+let cacheEstudiantes = [];
+let cacheAsistencias = [];
 
-// ---------- Almacenamiento Local ----------
-const leer = (key) => JSON.parse(localStorage.getItem(key) || "[]");
-const guardar = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+// Escuchar cambios en tiempo real desde la nube de Firebase
+onValue(ref(db, "estudiantes"), (snapshot) => {
+  const data = snapshot.val();
+  if (!data) {
+    set(ref(db, "estudiantes"), estudiantesBase);
+    cacheEstudiantes = estudiantesBase;
+  } else {
+    cacheEstudiantes = Array.isArray(data) ? data : Object.values(data);
+  }
+  actualizarTodo();
+});
+
+onValue(ref(db, "asistencias"), (snapshot) => {
+  const data = snapshot.val();
+  cacheAsistencias = data ? (Array.isArray(data) ? data : Object.values(data)) : [];
+  actualizarTodo();
+});
+
+// ---------- Almacenamiento en la Nube (Firebase) ----------
+const leer = (key) => {
+  if (key === "estudiantes") return cacheEstudiantes;
+  if (key === "asistencias") return cacheAsistencias;
+  return [];
+};
+
+const guardar = (key, data) => {
+  set(ref(db, key), data);
+};
 
 // ---------- Utilidades de Tiempo ----------
 const fechaHoy = () => {
