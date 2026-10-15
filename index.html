@@ -4,30 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sistema de Asistencia QR - Panel Académico Pro</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-
-  <div class="app-container">
-    
-  <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sistema de Asistencia QR - Panel Académico Pro</title>
   
-<link rel="icon" type="image/png" href="logo.png">
-  <link rel="stylesheet" href="css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&displ<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sistema de Asistencia QR - Panel Académico Pro</title>
-  
-  <!-- Ícono para la pestaña del navegador (Favicon) -->
+  <!-- Favicon oficial para la pestaña -->
   <link rel="icon" type="image/png" href="logo.png">
 
+  <!-- Estilos y fuentes -->
   <link rel="stylesheet" href="css/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -59,7 +40,7 @@
     <!-- CONTENIDO PRINCIPAL -->
     <main class="main-body">
 
-      <!-- PESTAÑA 1: DASHBOARD / ESCÁNER (USB + CÁMARA INTEGRADA) -->
+      <!-- PESTAÑA 1: DASHBOARD / ESCÁNER -->
       <section id="tab-dashboard" class="panel-seccion activo">
         <div class="metricas-grid">
           <div class="metrica-card">
@@ -86,10 +67,7 @@
         </div>
 
         <div class="dashboard-duo">
-          <!-- Columna Izquierda: Lectores (USB y Cámara) -->
           <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-            
-            <!-- Lector USB / Teclado -->
             <div class="card-box" style="margin-bottom: 0;">
               <div class="card-header-flex">
                 <h3>⌨️ Lector USB / Teclado</h3>
@@ -101,7 +79,6 @@
               </div>
             </div>
 
-            <!-- Lector por Cámara Web (Integrado aquí) -->
             <div class="card-box" style="margin-bottom: 0; text-align: center;">
               <div class="card-header-flex">
                 <h3>📷 Lector QR por Cámara</h3>
@@ -113,14 +90,10 @@
                 <button id="btnIniciarCamara" class="btn-primary" type="button" style="font-size: 0.85rem; padding: 0.5rem 1rem;">▶️ Iniciar Cámara</button>
                 <button id="btnDetenerCamara" class="btn-danger" type="button" style="display:none; font-size: 0.85rem; padding: 0.5rem 1rem;">⏹️ Detener Cámara</button>
               </div>
-
-              <!-- Visor de la cámara -->
               <div id="reader" style="width: 100%; max-height: 280px; border-radius: 8px; overflow: hidden; background: #000;"></div>
             </div>
-
           </div>
 
-          <!-- Columna Derecha: Estado del Último Ingreso -->
           <div class="card-box">
             <h3>⚡ Último Ingreso Registrado</h3>
             <div id="statusCard" class="status-display default">
@@ -231,12 +204,11 @@
     </main>
   </div>
 
-  <!-- Librería para generar códigos QR -->
+  <!-- Librerías externas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <!-- Librería para escanear QR mediante la cámara -->
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   
-  <!-- Lógica principal conectada como módulo de JavaScript -->
+  <!-- Script principal -->
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
