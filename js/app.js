@@ -2,6 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
 
+// Tu configuración oficial de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAxG7HliJEd7XITfsra-eRR2w-XjZ-aGCA",
   authDomain: "modulo-asistencia-866bd.firebaseapp.com",
@@ -376,6 +377,18 @@ function registrarAsistencia(codigo) {
   actualizarTodo();
 }
 
+// ---------- Eliminar Asistencia ----------
+function eliminarAsistencia(indexReal) {
+  if (confirm("¿Desea eliminar este registro de asistencia?")) {
+    let asistencias = leer("asistencias");
+    asistencias.splice(indexReal, 1);
+    guardar("asistencias", asistencias);
+    actualizarTodo();
+  }
+}
+
+window.eliminarAsistencia = eliminarAsistencia;
+
 // ---------- Renderizado de Tablas ----------
 function renderAsistencias() {
   const tbody = document.getElementById("tablaAsistencia");
@@ -384,20 +397,30 @@ function renderAsistencias() {
   
   const filtroFecha = document.getElementById("filtroFecha");
   const fechaFiltro = filtroFecha ? filtroFecha.value : fechaHoy();
-  const lista = leer("asistencias").filter(a => a.fecha === fechaFiltro);
+  
+  const asistencias = leer("asistencias");
 
-  if (lista.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Sin asistencias registradas para esta fecha.</td></tr>`;
+  // Filtrar manteniendo el índice real para poder eliminarlo correctamente
+  const listaFiltrada = [];
+  asistencias.forEach((item, index) => {
+    if (item.fecha === fechaFiltro) {
+      listaFiltrada.push({ ...item, indexReal: index });
+    }
+  });
+
+  if (listaFiltrada.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Sin asistencias registradas para esta fecha.</td></tr>`;
     return;
   }
 
-  lista.forEach(item => {
+  listaFiltrada.forEach(item => {
     tbody.innerHTML += `
       <tr>
         <td><strong>${item.codigo}</strong></td>
         <td>${item.nombre}</td>
         <td>${item.fecha}</td>
         <td>${item.hora}</td>
+        <td><button onclick="eliminarAsistencia(${item.indexReal})" class="btn-danger" type="button">Eliminar</button></td>
       </tr>
     `;
   });
@@ -410,17 +433,21 @@ function renderHistorial() {
   const historial = leer("asistencias");
 
   if (historial.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Historial vacío.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Historial vacío.</td></tr>`;
     return;
   }
 
-  historial.slice().reverse().forEach(item => {
+  // Mapear con su índice real invertido para el historial
+  const historialConIndice = historial.map((item, index) => ({ ...item, indexReal: index }));
+
+  historialConIndice.slice().reverse().forEach(item => {
     tbody.innerHTML += `
       <tr>
         <td><strong>${item.codigo}</strong></td>
         <td>${item.nombre}</td>
         <td>${item.fecha}</td>
         <td>${item.hora}</td>
+        <td><button onclick="eliminarAsistencia(${item.indexReal})" class="btn-danger" type="button">Eliminar</button></td>
       </tr>
     `;
   });
@@ -468,6 +495,29 @@ function renderCarnets() {
       <p>${est.grado || 'Sin curso'}</p>
       <div class="codigo-badge-card">${est.codigo}</div>
       <div class="qr-box-mini" id="qr-card-${est.codigo}"></div>
+    `;
+    container.appendChild(div);
+
+    if (typeof QRCode !== "undefined") {
+      try {
+        new QRCode(document.getElementById(`qr-card-${est.codigo}`), {
+          text: est.codigo,
+          width: 80,
+          height: 80
+        });
+      } catch(e) {}
+    }
+  });
+}
+
+// ---------- Actualización General ----------
+function actualizarTodo() {
+  actualizarMetricas();
+  renderEstudiantes();
+  renderAsistencias();
+  renderHistorial();
+  renderCarnets();
+} class="qr-box-mini" id="qr-card-${est.codigo}"></div>
     `;
     container.appendChild(div);
 
