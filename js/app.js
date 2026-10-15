@@ -294,8 +294,6 @@ function eliminarEstudiante(codigo) {
   }
 }
 
-window.eliminarEstudiante = eliminarEstudiante;
-
 function renderEstudiantes() {
   const tbody = document.getElementById("tablaEstudiantes");
   if (!tbody) return;
@@ -319,7 +317,7 @@ function renderEstudiantes() {
         <td><strong>${est.codigo}</strong></td>
         <td>${est.nombre}</td>
         <td>${est.grado || 'N/A'}</td>
-        <td><button onclick="eliminarEstudiante('${est.codigo}')" class="btn-danger" type="button">Eliminar</button></td>
+        <td><button onclick="window.eliminarEstudiante('${est.codigo}')" class="btn-danger" type="button">Eliminar</button></td>
       </tr>
     `;
   });
@@ -387,8 +385,6 @@ function eliminarAsistencia(indexReal) {
   }
 }
 
-window.eliminarAsistencia = eliminarAsistencia;
-
 // ---------- Renderizado de Tablas ----------
 function renderAsistencias() {
   const tbody = document.getElementById("tablaAsistencia");
@@ -400,7 +396,6 @@ function renderAsistencias() {
   
   const asistencias = leer("asistencias");
 
-  // Filtrar manteniendo el índice real para poder eliminarlo correctamente
   const listaFiltrada = [];
   asistencias.forEach((item, index) => {
     if (item.fecha === fechaFiltro) {
@@ -420,7 +415,7 @@ function renderAsistencias() {
         <td>${item.nombre}</td>
         <td>${item.fecha}</td>
         <td>${item.hora}</td>
-        <td><button onclick="eliminarAsistencia(${item.indexReal})" class="btn-danger" type="button">Eliminar</button></td>
+        <td><button onclick="window.eliminarAsistencia(${item.indexReal})" class="btn-danger" type="button">Eliminar</button></td>
       </tr>
     `;
   });
@@ -437,7 +432,6 @@ function renderHistorial() {
     return;
   }
 
-  // Mapear con su índice real invertido para el historial
   const historialConIndice = historial.map((item, index) => ({ ...item, indexReal: index }));
 
   historialConIndice.slice().reverse().forEach(item => {
@@ -447,7 +441,7 @@ function renderHistorial() {
         <td>${item.nombre}</td>
         <td>${item.fecha}</td>
         <td>${item.hora}</td>
-        <td><button onclick="eliminarAsistencia(${item.indexReal})" class="btn-danger" type="button">Eliminar</button></td>
+        <td><button onclick="window.eliminarAsistencia(${item.indexReal})" class="btn-danger" type="button">Eliminar</button></td>
       </tr>
     `;
   });
@@ -517,27 +511,8 @@ function actualizarTodo() {
   renderAsistencias();
   renderHistorial();
   renderCarnets();
-} class="qr-box-mini" id="qr-card-${est.codigo}"></div>
-    `;
-    container.appendChild(div);
-
-    if (typeof QRCode !== "undefined") {
-      try {
-        new QRCode(document.getElementById(`qr-card-${est.codigo}`), {
-          text: est.codigo,
-          width: 80,
-          height: 80
-        });
-      } catch(e) {}
-    }
-  });
 }
 
-// ---------- Actualización General ----------
-function actualizarTodo() {
-  actualizarMetricas();
-  renderEstudiantes();
-  renderAsistencias();
-  renderHistorial();
-  renderCarnets();
-}
+// Exponer funciones necesarias globalmente para los eventos onclick del HTML
+window.eliminarEstudiante = eliminarEstudiante;
+window.eliminarAsistencia = eliminarAsistencia;
